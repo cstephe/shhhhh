@@ -1,3 +1,7 @@
-html, body{
+html, body, .site-container{
     height: 100%;
+}
+
+.ui-grid {
+    height: 91vh;
 }

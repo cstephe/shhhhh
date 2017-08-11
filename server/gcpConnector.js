@@ -1,7 +1,9 @@
 var colors = require('colors');
 var util = require('util');
 var Q = require('q');
+var _ = require('lodash');
 const EVENT_STORE = 'ParticleEvent';
+const DEVICE_STORE = 'DEVICES';
 
 module.exports = function() {
     var config = {
@@ -35,6 +37,31 @@ module.exports = function() {
         });
     };
 
+    function updateDevices(message) {
+        var key = datastore.key(DEVICE_STORE);
+
+        var deviceIdToUpsert = message.attributes.device_id;
+        if(deviceIdToUpsert){
+            getDevice(deviceIdToUpsert).then(function(response){
+                if(response && response.length){
+                    console.log(response);
+                    console.log('need to update');
+                }else{
+                    datastore.save({
+                        key: key,
+                        data: _createEventObjectForStorage(message)
+                    }, function(err) {
+                        if (err) {
+                            console.log(colors.red('There was an error storing the device'), err);
+                        }
+                        console.log(colors.green('device stored in Datastore!\r\n'), _createEventObjectForStorage(message, true))
+                    });
+                }
+            })
+        }
+
+    }
+
     function getEvents() {
         var deferred = Q.defer();
         const q = datastore.createQuery([EVENT_STORE])
@@ -42,20 +69,47 @@ module.exports = function() {
 
         datastore.runQuery(q, function(err, entities, nextQuery) {
             if (err) {
-                return;
+                deferred.reject(err);
             }
             deferred.resolve(entities);
         });
         return deferred.promise;
     };
 
+    function getDevice(id) {
+        var deferred = Q.defer();
+        const q = datastore.createQuery([DEVICE_STORE])
+        .filter('device_id', '=', id);
+        datastore.runQuery(q, function(err, entities, nextQuery) {
+            if (err) {
+                deferred.reject(err);
+            }
+            deferred.resolve(entities);
+        });
+        return deferred.promise;
+    };
+    function getDevices() {
+        return getEvents().then(function(entities) {
+            var toReturn = {};
+            if (entities) {
+                entities.forEach(function(item) {
+                    if (!toReturn[item['device_id']]) {
+                        toReturn[item['device_id']] = item;
+                    }
+                })
+            }
+            return _.toArray(toReturn);
+        });
+    };
+
     subscription.on('message', function(message) {
-        console.log(colors.cyan('Particle event received from Pub/Sub!\r\n'), _createEventObjectForStorage(message, true));
+        console.log(colors.cyan('Particle event received from Pub/Sub!\r\n'), message);
         // Called every time a message is received.
         // message.id = ID used to acknowledge its receival.
         // message.data = Contents of the message.
         // message.attributes = Attributes of the message.
         storeEvent(message);
+        //updateDevices(message);
         message.ack();
     });
 
@@ -87,6 +141,7 @@ module.exports = function() {
     };
     var subscription = pubsub.subscription(config.gcpPubSubSubscriptionName);
     return {
-        getEvents: getEvents
+        getEvents: getEvents,
+        getDevices: getDevices
     }
 };
