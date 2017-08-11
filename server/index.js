@@ -1,5 +1,4 @@
 const express = require('express');
-const trapStatus = require('./api/trapStatus');
 const gcpConnector = require('./gcpConnector');
 const app = express();
 var storage = gcpConnector();
