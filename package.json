@@ -1,0 +1,29 @@
+{
+  "name": "shhhhh",
+  "version": "1.0.0",
+  "description": "dorking around with a friend",
+  "main": "server/index.js",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "express": "^4.15.4",
+    "google-cloud": "^0.56.0",
+    "q": "^1.5.0",
+    "util": "^0.10.3",
+    "utils": "^0.3.1"
+  },
+  "devDependencies": {
+    "bower": "^1.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cstephe/shhhhh.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/cstephe/shhhhh/issues"
+  },
+  "homepage": "https://github.com/cstephe/shhhhh#readme",
+  "scripts": {
+    "start": "node server/index.js"
+  }
+}

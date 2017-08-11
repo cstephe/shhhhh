@@ -1,0 +1,50 @@
+<html>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-aria/angular-aria.js"></script>
+<script src="bower_components/angular-messages/angular-messages.js"></script>
+<script src="bower_components/angular-material/angular-material.js"></script>
+<script src="app/main.js"></script>
+<link rel="stylesheet" type="text/css" href="assets/main.css">
+<link rel="stylesheet" type="text/css" href="bower_components/angular-material/angular-material.css">
+<body>
+<div ng-app="thisApp">
+    <div ng-controller="mainController">
+        <table>
+            <thead>
+            <tr>
+                <th>
+                    DATA
+                </th>
+                <th>
+                    EVENT
+                </th>
+                <th>
+                    DEVICE
+                </th>
+                <th>
+                    PUBLISHED
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="event in events">
+                <td>
+                    {{event.data}}
+                </td>
+                <td>
+                    {{event.event}}
+                </td>
+                <td>
+                    {{event.device_id}}
+                </td>
+                <td>
+                    {{event.published_at}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

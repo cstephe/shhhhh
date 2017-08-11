@@ -1,0 +1,21 @@
+{
+  "name": "shhhhh",
+  "description": "dorking around with a friend",
+  "authors": [
+    "Chris Stephens <cstephens@centriperalnetworks.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/cstephe/shhhhh",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-ui-grid": "^4.0.6",
+    "angular-material": "^1.1.4",
+    "angular": "^1.5"
+  }
+}
