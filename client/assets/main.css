@@ -1,7 +1,3 @@
-table{
-    width: 100%;
-}
-th{
-    background: blue;
-    color:white;
+html, body{
+    height: 100%;
 }

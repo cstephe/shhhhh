@@ -1,16 +1,10 @@
 const express = require('express');
 const gcpConnector = require('./gcpConnector');
 const app = express();
-var storage = gcpConnector();
-storage.getEvents();
-app.use(express.static('./client'))
+var gcp = gcpConnector();
+const apiServer = require('./apiConfig');
 
-app.get('/api/traps', function(req, res) {
-    storage.getEvents().then(function(events) {
-        res.send(events);
-    });
-});
-
-app.listen(3000, function() {
-    console.log('Example app listening on port 3000!')
-});
+//Launch API
+apiServer.launch(app, gcp);
+//Host Client
+app.use(express.static('./client'));

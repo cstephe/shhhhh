@@ -1,17 +1,12 @@
-const express = require('express');
-const trapStatus = require('./api/trapStatus');
-const app = express();
-modules.export = {
-    launch:function(){
-        app.get('/', function (req, res) {
-            res.send('Hello World!')
+module.exports = {
+    launch: function(app, gcp) {
+        app.get('/api/traps', function(req, res) {
+            gcp.getEvents().then(function(events) {
+                res.send(events);
+            });
         });
 
-        app.get('/traps', function (req, res) {
-            res.send(storage.getEvents());
-        });
-
-        app.listen(3000, function () {
+        app.listen(3000, function() {
             console.log('Example app listening on port 3000!')
         });
     }
