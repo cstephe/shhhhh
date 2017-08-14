@@ -17,3 +17,8 @@ html, body, .site-container{
     background-repeat:no-repeat;
     background-size: cover;
 }
+
+md-card-title {
+    background: #474884;
+    color: white;
+}
