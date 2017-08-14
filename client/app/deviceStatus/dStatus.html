@@ -1,5 +1,23 @@
-Devices
-<div class="gridStyle"
-     ui-grid-resize-columns
-     ui-grid-grouping
-     ui-grid="gridOptions"></div>
+<div layout="column">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2 class="md-flex">RENTOTRAP &trade;</h2>
+            <md-nav-bar
+                    class="message-grouping-controls"
+                    md-selected-nav-item="currentNavItem"
+                    nav-bar-aria-label="navigation links">
+                <md-nav-item md-nav-click="setDevices()" name="devices">
+                    Device View
+                </md-nav-item>
+                <md-nav-item md-nav-click="setForMessages()" name="messages">
+                    Message View
+                </md-nav-item>
+            </md-nav-bar>
+        </div>
+    </md-toolbar>
+
+    <div class="gridStyle"
+         ui-grid-resize-columns
+         ui-grid-grouping
+         ui-grid="gridOptions"></div>
+</div>

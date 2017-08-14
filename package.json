@@ -31,7 +31,6 @@
   },
   "homepage": "https://github.com/cstephe/shhhhh#readme",
   "scripts": {
-    "prestart": "gulp wire",
     "start": "node server/index.js"
   }
 }

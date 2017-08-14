@@ -7,14 +7,10 @@
     <!-- endbower -->
     <link rel="stylesheet" href="./assets/main.css" />
 </head>
-<body>
-<div class="site-container" layout="column">
-    <md-nav-bar md-selected-nav-item="currentNavItem">
-        <md-nav-item md-nav-href="#dStatus" name="dStatus">Device Status</md-nav-item>
-        <md-nav-item md-nav-href="#mLog" name="mLog">Message log</md-nav-item>
-    </md-nav-bar>
+<body layout="column">
+<md-content class="site-container" layout="column" flex="auto">
     <div class="main-view" ui-view flex="auto"></div>
-</div>
+</md-content>
 <!-- bower:js -->
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-messages/angular-messages.js"></script>
@@ -26,7 +22,7 @@
 <script src="bower_components/lodash/lodash.js"></script>
 <!-- endbower -->
 <script src="app/main.js"></script>
-<script src="app/messageLog/messageLog.js"></script>
+<script src="app/messageLog/messageLogServices.js"></script>
 <script src="app/deviceStatus/deviceStatus.js"></script>
 </body>
 </html>

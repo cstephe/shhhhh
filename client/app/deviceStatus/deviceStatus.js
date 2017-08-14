@@ -5,7 +5,8 @@
         'ui.grid',
         'ui.grid.grouping',
         'ui.grid.resizeColumns',
-        'ui.router'
+        'ui.router',
+        'app.messageLog.services'
     ])
     .config(["$stateProvider", function($stateProvider) {
         $stateProvider.state('deviceStatus', {
@@ -14,12 +15,15 @@
             templateUrl: LOCATION + 'dStatus.html'
         })
     }])
-    .controller('dStatusController', ['$scope', '$http', '$interval', 'uiGridGroupingConstants', '$filter',
-        function($scope, $http, $interval, uiGridGroupingConstants, $filter) {
+    .controller('dStatusController', ['$scope', '$http', '$interval',
+        'uiGridGroupingConstants', '$filter', 'messageLogDefinitions', '$timeout',
+        function($scope, $http, $interval,
+                 uiGridGroupingConstants, $filter,
+                 messageLogDefinitions, $timeout) {
             var getTrapData = function() {
                 $http({
                     method: 'GET',
-                    url: 'api/traps'
+                    url: 'api/messages'
                 })
                 .then(function(res) {
                     $scope.devices = res.data;
@@ -27,51 +31,21 @@
             };
             getTrapData();
 
-            $scope.gridOptions = {
-                enableColumnResizing: true,
-                enableFiltering: true,
-                enableGroupHeaderSelection: true,
-                data: 'devices',
-                treeCustomAggregations: {
-                    'last': {
-                        label: 'Last: ', aggregationFn: function(aggregation, fieldValue, numValue, row) {
-                            if (!aggregation.latestDate || new Date(row.published_at) > aggregation.latestDate) {
-                                aggregation.latestDate = new Date(row.published_at);
-                                aggregation.value = fieldValue;
-                            }
-                        }
-                    },
-                },
-                columnDefs: [
-                    {
-                        name: 'device_id',
-                        grouping: {groupPriority: 0},
-                        sort: {priority: 0, direction: 'desc'}
-                    },
-                    {
-                        name: 'data',
-                        treeAggregationType: 'last',
-                        customTreeAggregationFinalizerFn: function(aggregation) {
-                            console.log(arguments);
-                        }
-                    },
-                    {name: 'gc_pub_sub_id'},
-                    {
-                        name: 'published_at',
-                        type: 'date',
-                        cellFilter: 'date:\'short\'',
-                        treeAggregationType: uiGridGroupingConstants.aggregation.MAX,
-                        customTreeAggregationFinalizerFn: function(aggregation) {
-                            aggregation.rendered = $filter('date')(aggregation.value, 'short');
-                        },
-                        sort: {priority: 0, direction: 'desc'}
-                    }
-                ],
-                onRegisterApi: function(gridApi) {
-                    $scope.gridApi = gridApi;
-                }
+            $scope.gridOptions = messageLogDefinitions.getGridOptions();
+            $scope.gridOptions.onRegisterApi = function(gridApi) {
+                $scope.gridApi = gridApi;
+                $timeout(function() {
+                    $scope.currentNavItem = 'devices';
+                    $scope.setDevices();
+                });
             };
 
+            $scope.setDevices = function() {
+                messageLogDefinitions.setViewMode(messageLogDefinitions.VIEW_MODES.DEVICES, $scope.gridApi);
+            };
+            $scope.setForMessages = function() {
+                messageLogDefinitions.setViewMode(messageLogDefinitions.VIEW_MODES.MESSAGES, $scope.gridApi);
+            };
 
             //var refresh = $interval(getTrapData, 10000);
             //$scope.$destroy(function(){

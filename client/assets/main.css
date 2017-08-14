@@ -5,3 +5,10 @@ html, body, .site-container{
 .ui-grid {
     height: 91vh;
 }
+
+.message-grouping-controls .md-nav-bar{
+    height:65px;
+}
+.message-grouping-controls  .md-button{
+    line-height: 3;
+}
