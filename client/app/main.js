@@ -1,5 +1,12 @@
 angular.module('thisApp', [
-    'app.deviceStatus',
+    'app.messageViewer',
+    'app.login',
     'ui.router',
-    'ngMaterial'
+    'ngMaterial',
+    'app.mainPage'
+])
+.config(["$urlRouterProvider",
+    function($urlRouterProvider) {
+        $urlRouterProvider.otherwise('/login');
+    }
 ]);

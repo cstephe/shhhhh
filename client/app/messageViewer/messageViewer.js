@@ -1,36 +1,38 @@
 (function() {
-    var LOCATION = 'app/deviceStatus/';
-    angular.module('app.deviceStatus', [
+    var LOCATION = 'app/messageViewer/';
+    angular.module('app.messageViewer', [
+        'app.messageViewer.services',
         'ngMaterial',
         'ui.grid',
         'ui.grid.grouping',
         'ui.grid.resizeColumns',
-        'ui.router',
-        'app.messageLog.services'
+        'ui.router'
     ])
     .config(["$stateProvider", function($stateProvider) {
-        $stateProvider.state('deviceStatus', {
-            url: "/dStatus",
-            controller: 'dStatusController',
-            templateUrl: LOCATION + 'dStatus.html'
-        })
+        $stateProvider.state('app.messageViewer', {
+            url: "/messages",
+            controller: 'messageViewerController',
+            templateUrl: LOCATION + 'messageViewer.html'
+        });
     }])
-    .controller('dStatusController', ['$scope', '$http', '$interval',
+    .controller('messageViewerController', ['$scope', '$http', '$interval', '$state',
         'uiGridGroupingConstants', '$filter', 'messageLogDefinitions', '$timeout',
-        function($scope, $http, $interval,
+        function($scope, $http, $interval, $state,
                  uiGridGroupingConstants, $filter,
                  messageLogDefinitions, $timeout) {
             var getTrapData = function() {
+                $scope.refreshing = true;
                 $http({
                     method: 'GET',
                     url: 'api/messages'
                 })
                 .then(function(res) {
                     $scope.devices = res.data;
+                }).finally(function() {
+                    $scope.refreshing = false;
                 });
             };
             getTrapData();
-
             $scope.gridOptions = messageLogDefinitions.getGridOptions();
             $scope.gridOptions.onRegisterApi = function(gridApi) {
                 $scope.gridApi = gridApi;
@@ -39,18 +41,18 @@
                     $scope.setDevices();
                 });
             };
-
+            $scope.refreshView = function() {
+                getTrapData();
+            };
             $scope.setDevices = function() {
                 messageLogDefinitions.setViewMode(messageLogDefinitions.VIEW_MODES.DEVICES, $scope.gridApi);
             };
             $scope.setForMessages = function() {
                 messageLogDefinitions.setViewMode(messageLogDefinitions.VIEW_MODES.MESSAGES, $scope.gridApi);
             };
-
-            //var refresh = $interval(getTrapData, 10000);
-            //$scope.$destroy(function(){
-            //    $interval.cancel(refresh);
-            //})
+            $scope.logout = function(){
+                $state.go('login')
+            };
         }
     ]);
 })();

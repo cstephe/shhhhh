@@ -12,3 +12,8 @@ html, body, .site-container{
 .message-grouping-controls  .md-button{
     line-height: 3;
 }
+.login-container{
+    background: url('Pla_camo.svg');
+    background-repeat:no-repeat;
+    background-size: cover;
+}

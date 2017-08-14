@@ -1,7 +1,6 @@
 (function() {
-    var LOCATION = 'app/messageLog/';
-
-    angular.module('app.messageLog.services', [
+    var LOCATION = 'app/messageViewer/';
+    angular.module('app.messageViewer.services', [
         'ngMaterial',
         'ui.grid',
         'ui.router'
@@ -10,7 +9,7 @@
         function(uiGridGroupingConstants, $filter) {
             var VIEW_MODES = {
                 DEVICES: 'devices',
-                MESSAGES: 'messages',
+                MESSAGES: 'messages'
             };
             var service = {
                 VIEW_MODES: VIEW_MODES,
@@ -29,6 +28,7 @@
                     return {
                         enableColumnResizing: true,
                         enableFiltering: true,
+                        enableGridMenu: true,
                         enableGroupHeaderSelection: true,
                         data: 'devices',
                         treeCustomAggregations: {

@@ -1,0 +1,28 @@
+<div layout="column"
+     layout-align="center center"
+     flex="auto"
+    class="login-container">
+    <div flex="auto"></div>
+    <md-card layout="column">
+        <md-card-title>
+            <md-card-title-text>
+                RENTOTRAP &trade; LOGIN
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+            <md-input-container>
+                <label>Username</label>
+                <input type="text" md-model="username">
+            </md-input-container>
+            <md-input-container>
+                <label>Password</label>
+                <input type="password" md-model="password">
+            </md-input-container>
+        </md-card-content>
+        <md-card-actions layout="row">
+            <div flex></div>
+            <md-button ng-click="login()">Login</md-button>
+        </md-card-actions>
+    </md-card>
+    <div flex="auto"></div>
+</div>

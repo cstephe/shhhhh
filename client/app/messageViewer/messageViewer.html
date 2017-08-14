@@ -2,7 +2,7 @@
     <md-toolbar>
         <div class="md-toolbar-tools">
             <h2 class="md-flex">RENTOTRAP &trade;</h2>
-            <md-nav-bar
+            <md-nav-bar flex
                     class="message-grouping-controls"
                     md-selected-nav-item="currentNavItem"
                     nav-bar-aria-label="navigation links">
@@ -13,6 +13,12 @@
                     Message View
                 </md-nav-item>
             </md-nav-bar>
+            <md-button ng-click="refreshView()">
+                <i class="fa fa-refresh" ng-class="{'fa-spin':refreshing}"></i> Refresh
+            </md-button>
+            <md-button ng-click="logout()">
+                Logout
+            </md-button>
         </div>
     </md-toolbar>
 
